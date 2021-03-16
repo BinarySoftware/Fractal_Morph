@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="sfml">
+      <UniqueIdentifier>{a9f17bec-4a3e-44fe-81c9-6bfe352d0746}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GFK.cpp">
@@ -21,5 +24,88 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
+    <None Include="sfml-lib\sfml-audio-d.exp">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-audio-d.pdb">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-audio-d-2.dll">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-audio-d-2.ilk">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-graphics-d.exp">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-graphics-d.pdb">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-graphics-d-2.dll">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-graphics-d-2.ilk">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-main-s-d.pdb">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-network-d.exp">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-network-d.pdb">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-network-d-2.dll">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-network-d-2.ilk">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-system-d.exp">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-system-d.pdb">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-system-d-2.dll">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-system-d-2.ilk">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-window-d.exp">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-window-d.pdb">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-window-d-2.dll">
+      <Filter>sfml</Filter>
+    </None>
+    <None Include="sfml-lib\sfml-window-d-2.ilk">
+      <Filter>sfml</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="sfml-lib\sfml-audio-d.lib">
+      <Filter>sfml</Filter>
+    </Library>
+    <Library Include="sfml-lib\sfml-graphics-d.lib">
+      <Filter>sfml</Filter>
+    </Library>
+    <Library Include="sfml-lib\sfml-main-d.lib">
+      <Filter>sfml</Filter>
+    </Library>
+    <Library Include="sfml-lib\sfml-network-d.lib">
+      <Filter>sfml</Filter>
+    </Library>
+    <Library Include="sfml-lib\sfml-system-d.lib">
+      <Filter>sfml</Filter>
+    </Library>
+    <Library Include="sfml-lib\sfml-window-d.lib">
+      <Filter>sfml</Filter>
+    </Library>
   </ItemGroup>
 </Project>
