@@ -6,7 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 int main() {
-	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode(800, 600), "Fractal Animator");
 	sf::CircleShape shape(100.f);
 	shape.setFillColor(sf::Color::Green);
 
@@ -15,6 +15,7 @@ int main() {
 	rectangle.setPosition({ 150.f, 20.f });
 	rectangle.rotate(20.f);
 
+	window.setFramerateLimit(60);
 
 	while (window.isOpen()) {
 		sf::Event event;
