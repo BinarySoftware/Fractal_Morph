@@ -1,31 +1,53 @@
-// GFK.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+﻿/*
+ * Fractal Explorer
+ *
+ * Program do obserwowania afinicznej transformacji jednego rodzaju fraktala w drugi.
+ * C2021 Jan Paluch, Wiktoria Szewczyk, Maciej Mikołajek.
+ */
+
 
 #include <iostream>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
-int main() {
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Fractal Animator");
-	sf::CircleShape shape(100.f);
-	shape.setFillColor(sf::Color::Green);
 
-	sf::RectangleShape rectangle{ { 220.f, 160.f } };
-	rectangle.setFillColor(sf::Color::White);
-	rectangle.setPosition({ 150.f, 20.f });
-	rectangle.rotate(20.f);
+ /**
+   * Poczatek programu.
+   */
+int main() {
+	sf::RenderWindow window(sf::VideoMode(1200, 800), "Fractal Explorer", sf::Style::Titlebar | sf::Style::Close);
+	sf::Event event;
+
+	sf::VertexArray points(sf::Points, 1);
 
 	window.setFramerateLimit(60);
 
+	bool isPressedLmb = false;
+
 	while (window.isOpen()) {
-		sf::Event event;
 		while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed)
+			if (event.type == sf::Event::Closed) {
 				window.close();
+			}
+
+			if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+				isPressedLmb = true;
+			}
+
+			if (event.type == sf::Event::MouseMoved && isPressedLmb) {
+				sf::Vertex v(sf::Vector2f(event.mouseMove.x, event.mouseMove.y), sf::Color(0, 0, 0));
+				points.append(v);
+			}
+
+			if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
+				isPressedLmb = false;
+			}
 		}
 
-		window.clear();
-		window.draw(rectangle);
+		window.clear(sf::Color(250, 250, 250));
+
+		window.draw(points);
+
 		window.display();
 	}
 
