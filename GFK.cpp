@@ -48,7 +48,7 @@ int main() {
 			if (event.type == sf::Event::MouseMoved && isPressedLmb) {
 				for (int i = 0; i <= 3; i++) {
 					for (int j = 0; j <= 3; j++) {
-						sf::Vertex v(sf::Vector2f((float) event.mouseMove.x + i, (float) event.mouseMove.y + j), currentColor);
+						sf::Vertex v(sf::Vector2f((float)event.mouseMove.x + i, (float)event.mouseMove.y + j), currentColor);
 						points.append(v);
 					}
 				}
