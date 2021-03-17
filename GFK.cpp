@@ -15,14 +15,18 @@
    * Poczatek programu.
    */
 int main() {
-	sf::RenderWindow window(sf::VideoMode(1200, 800), "Fractal Explorer", sf::Style::Titlebar | sf::Style::Close);
+	int screenWidth = sf::VideoMode::getDesktopMode().width;
+	int screenHeight = sf::VideoMode::getDesktopMode().height;
+
+	sf::RenderWindow window(sf::VideoMode(screenWidth / 2, screenHeight / 2), "Fractal Explorer", sf::Style::Titlebar | sf::Style::Close);
 	sf::Event event;
 
 	sf::VertexArray points(sf::Points, 1);
 
-	window.setFramerateLimit(60);
+	window.setFramerateLimit(240);
 
 	bool isPressedLmb = false;
+	sf::Color currentColor = sf::Color::Black;
 
 	while (window.isOpen()) {
 		while (window.pollEvent(event)) {
@@ -34,9 +38,20 @@ int main() {
 				isPressedLmb = true;
 			}
 
+			if (event.type == sf::Event::KeyPressed) {
+				if (event.key.code == sf::Keyboard::G) { currentColor = sf::Color::Green; }
+				if (event.key.code == sf::Keyboard::R) { currentColor = sf::Color::Red; }
+				if (event.key.code == sf::Keyboard::B) { currentColor = sf::Color::Blue; }
+				if (event.key.code == sf::Keyboard::Space) { currentColor = sf::Color::Black; }
+			}
+
 			if (event.type == sf::Event::MouseMoved && isPressedLmb) {
-				sf::Vertex v(sf::Vector2f(event.mouseMove.x, event.mouseMove.y), sf::Color(0, 0, 0));
-				points.append(v);
+				for (int i = 0; i <= 3; i++) {
+					for (int j = 0; j <= 3; j++) {
+						sf::Vertex v(sf::Vector2f(event.mouseMove.x + i, event.mouseMove.y + j), currentColor);
+						points.append(v);
+					}
+				}
 			}
 
 			if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
