@@ -15,25 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GUIMyFrame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="README.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="GUIMyFrame.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="CImg.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GUI.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="FreeImage.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
