@@ -143,6 +143,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GFK.cpp" />
+    <ClCompile Include="GUI.cpp" />
+    <ClCompile Include="GUIMyFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
@@ -175,6 +177,10 @@
     <Library Include="sfml-lib\sfml-network-d.lib" />
     <Library Include="sfml-lib\sfml-system-d.lib" />
     <Library Include="sfml-lib\sfml-window-d.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GUI.h" />
+    <ClInclude Include="GUIMyFrame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
