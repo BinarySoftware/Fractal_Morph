@@ -78,6 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(HOMEDRIVE)$(HOMEPATH)\Downloads\wxWidgets-3.0.5\include;$(HOMEDRIVE)$(HOMEPATH)\Downloads\wxWidgets-3.0.5\include\msvc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(HOMEDRIVE)$(HOMEPATH)\Downloads\wxWidgets-3.0.5\lib\vc_x64_lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -117,6 +119,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,41 +145,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GFK.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="GUIMyFrame.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
-    <None Include="sfml-lib\sfml-audio-d-2.dll" />
-    <None Include="sfml-lib\sfml-audio-d-2.ilk" />
-    <None Include="sfml-lib\sfml-audio-d.exp" />
-    <None Include="sfml-lib\sfml-audio-d.pdb" />
-    <None Include="sfml-lib\sfml-graphics-d-2.dll" />
-    <None Include="sfml-lib\sfml-graphics-d-2.ilk" />
-    <None Include="sfml-lib\sfml-graphics-d.exp" />
-    <None Include="sfml-lib\sfml-graphics-d.pdb" />
-    <None Include="sfml-lib\sfml-main-s-d.pdb" />
-    <None Include="sfml-lib\sfml-network-d-2.dll" />
-    <None Include="sfml-lib\sfml-network-d-2.ilk" />
-    <None Include="sfml-lib\sfml-network-d.exp" />
-    <None Include="sfml-lib\sfml-network-d.pdb" />
-    <None Include="sfml-lib\sfml-system-d-2.dll" />
-    <None Include="sfml-lib\sfml-system-d-2.ilk" />
-    <None Include="sfml-lib\sfml-system-d.exp" />
-    <None Include="sfml-lib\sfml-system-d.pdb" />
-    <None Include="sfml-lib\sfml-window-d-2.dll" />
-    <None Include="sfml-lib\sfml-window-d-2.ilk" />
-    <None Include="sfml-lib\sfml-window-d.exp" />
-    <None Include="sfml-lib\sfml-window-d.pdb" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="sfml-lib\sfml-audio-d.lib" />
-    <Library Include="sfml-lib\sfml-graphics-d.lib" />
-    <Library Include="sfml-lib\sfml-main-d.lib" />
-    <Library Include="sfml-lib\sfml-network-d.lib" />
-    <Library Include="sfml-lib\sfml-system-d.lib" />
-    <Library Include="sfml-lib\sfml-window-d.lib" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI.h" />
