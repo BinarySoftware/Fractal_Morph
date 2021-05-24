@@ -1,34 +1,70 @@
-// GFK.cpp : This file contains the 'main' function. Program execution begins and ends there.
-// dudududupa
+﻿/*
+ * Fractal Explorer
+ *
+ * Program do obserwowania afinicznej transformacji jednego rodzaju fraktala w drugi.
+ * C2021 Jan Paluch, Wiktoria Szewczyk, Maciej Mikołajek.
+ */
+
 
 #include <iostream>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
-int main(){
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
 
-    sf::RectangleShape rectangle{ { 220.f, 160.f } };
-    rectangle.setFillColor(sf::Color::White);
-    rectangle.setPosition({ 150.f, 20.f });
-    rectangle.rotate(20.f);
+ /**
+   * Poczatek programu.
+   */
+int main() {
+	int screenWidth = sf::VideoMode::getDesktopMode().width;
+	int screenHeight = sf::VideoMode::getDesktopMode().height;
 
+	sf::RenderWindow window(sf::VideoMode(screenWidth / 2, screenHeight / 2), "Fractal Explorer", sf::Style::Titlebar | sf::Style::Close);
+	sf::Event event;
 
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+	sf::VertexArray points(sf::Points, 1);
 
-        window.clear();
-        window.draw(rectangle);
-        window.display();
-    }
+	window.setFramerateLimit(240);
 
-    return 0;
+	bool isPressedLmb = false;
+	sf::Color currentColor = sf::Color::Black;
+
+	while (window.isOpen()) {
+		while (window.pollEvent(event)) {
+			if (event.type == sf::Event::Closed) {
+				window.close();
+			}
+
+			if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+				isPressedLmb = true;
+			}
+
+			if (event.type == sf::Event::KeyPressed) {
+				if (event.key.code == sf::Keyboard::G) { currentColor = sf::Color::Green; }
+				if (event.key.code == sf::Keyboard::R) { currentColor = sf::Color::Red; }
+				if (event.key.code == sf::Keyboard::B) { currentColor = sf::Color::Blue; }
+				if (event.key.code == sf::Keyboard::Space) { currentColor = sf::Color::Black; }
+			}
+
+			if (event.type == sf::Event::MouseMoved && isPressedLmb) {
+				for (int i = 0; i <= 3; i++) {
+					for (int j = 0; j <= 3; j++) {
+						sf::Vertex v(sf::Vector2f((float)event.mouseMove.x + i, (float)event.mouseMove.y + j), currentColor);
+						points.append(v);
+					}
+				}
+			}
+
+			if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
+				isPressedLmb = false;
+			}
+		}
+
+		window.clear(sf::Color(250, 250, 250));
+
+		window.draw(points);
+
+		window.display();
+	}
+
+	return 0;
 }
