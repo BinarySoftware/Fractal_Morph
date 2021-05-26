@@ -22,6 +22,9 @@
 #include <wx/sizer.h>
 #include <wx/panel.h>
 #include <wx/frame.h>
+#include <wx/filedlg.h>
+#include <wx/textfile.h>
+#include <iostream>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -39,11 +42,17 @@ class MyFrame : public wxFrame
 		wxStaticText* m_staticText2;
 		wxPanel* m_panel2;
 
+		enum {
+			ID_WXBUTTON_FILE =	1001,
+			ID_WXBUTTON_MORPH =	1002
+		};
+
 	public:
 
 		MyFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 562,348 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
 		~MyFrame();
 
+		void writeButtonOnClick(wxCommandEvent& e);
 };
 
