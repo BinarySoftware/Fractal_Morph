@@ -54,5 +54,6 @@ class MyFrame : public wxFrame
 		~MyFrame();
 
 		void writeButtonOnClick(wxCommandEvent& e);
+		void deserialize(wxString& str, wxTextFile& tfile);
 };
 

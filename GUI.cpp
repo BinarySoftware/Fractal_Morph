@@ -6,6 +6,10 @@
 ///////////////////////////////////////////////////////////////////////////
 
 #include "GUI.h"
+#include "Instruction.h"
+#include <vector>
+#include <string>
+#include <sstream>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -71,40 +75,51 @@ void MyFrame::writeButtonOnClick(wxCommandEvent& e) {
 	wxTextFile tfile;
 	tfile.Open(file);
 
+	deserialize(str, tfile);
+	tfile.Close();
+}
+
+void MyFrame::deserialize(wxString& str, wxTextFile& tfile)
+{
+
+	/////// Rozmiar pola, liczba pikseli ///////
 	str = tfile.GetFirstLine();
+	std::stringstream test(str.ToStdString());
+	std::string segment;
+	std::vector<int> seglist;
 
-	//Rozmiar pola
-
+	while (std::getline(test, segment, ',')) {
+		seglist.push_back(atoi(segment.c_str()));
+	}
 	str = tfile.GetNextLine(); // Polozenie obserwatora wiec pomijamy dla 2d
 
+							   /////// Ilosc Fraktali ///////
 	str = tfile.GetNextLine();
+	int ilosc = wxAtoi(str);
 
-	//Ile fraktali
-
-	str = tfile.GetNextLine();
-
-	//Ile przeksztalcen dla pierwszego fraktala
-
-	int it1 = wxAtoi(str);
-
-	while (it1 > 0) {
+	for (int i = 0; i < ilosc; i++) {
+		//Ile przeksztalcen dla pierwszego fraktala
 		str = tfile.GetNextLine();
+		int iter = wxAtoi(str);
 
-		//Przeksztalcenia dla pierwszego fraktala
-		it1--;
-	}
+		while (iter > 0) {
+			//Przeksztalcenia dla pierwszego fraktala
+			str = tfile.GetNextLine();
+			std::stringstream test(str.ToStdString());
+			std::string segment;
+			std::vector<float> seglist;
 
-	str = tfile.GetNextLine();
+			while (std::getline(test, segment, ' ')) {
+				seglist.push_back(atof(segment.c_str()));
+			}
+			seglist;
+			iter--;
+		}
 
-	//Ile klatek pomiedzy
-
-	str = tfile.GetNextLine();
-
-	//Ile przeksztalcen dla drugiego fraktala
-
-	while (!tfile.Eof()) {
-		str = tfile.GetNextLine();
-
-		//Przeksztalcenia dla drugiego fraktala
+		if (i != ilosc - 1) {
+			//Ile klatek pomiedzy
+			str = tfile.GetNextLine();
+			int frames = wxAtoi(str);
+		}
 	}
 }
