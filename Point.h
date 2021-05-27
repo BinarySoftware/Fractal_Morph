@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 class Point {
 private:
@@ -11,3 +12,5 @@ public:
 	float x() { return _x; }
 	float y() { return _y; }
 };
+
+typedef std::vector<Point> Points;
