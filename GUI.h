@@ -25,6 +25,7 @@
 #include <wx/filedlg.h>
 #include <wx/textfile.h>
 #include <iostream>
+#include "Instruction.h"
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -35,6 +36,8 @@
 class MyFrame : public wxFrame
 {
 	private:
+		Instruction inst;
+		Points current_points;
 
 	protected:
 		wxButton* m_button3;
@@ -49,10 +52,16 @@ class MyFrame : public wxFrame
 
 	public:
 
-		MyFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 562,348 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		MyFrame( wxWindow* parent,
+			wxWindowID id = wxID_ANY,
+			const wxString& title = wxEmptyString,
+			const wxPoint& pos = wxDefaultPosition,
+			const wxSize& size = wxSize( 562,348 ),
+			long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
 		~MyFrame();
 
 		void writeButtonOnClick(wxCommandEvent& e);
+		Instruction deserialize(wxString& str, wxTextFile& tfile);
 };
 

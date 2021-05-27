@@ -6,11 +6,16 @@
 ///////////////////////////////////////////////////////////////////////////
 
 #include "GUI.h"
+#include "Instruction.h"
+#include <vector>
+#include <string>
+#include <sstream>
 
 ///////////////////////////////////////////////////////////////////////////
 
 MyFrame::MyFrame(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxFrame(parent, id, title, pos, size, style)
 {
+	inst = Instruction();
 	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
 
 	wxBoxSizer* bSizer4;
@@ -71,40 +76,63 @@ void MyFrame::writeButtonOnClick(wxCommandEvent& e) {
 	wxTextFile tfile;
 	tfile.Open(file);
 
+	inst = deserialize(str, tfile);
+	current_points = inst.calculate_fractal(0);
+
+	tfile.Close();
+}
+
+Instruction MyFrame::deserialize(wxString& str, wxTextFile& tfile)
+{
+
+	/////// Rozmiar pola, liczba pikseli ///////
 	str = tfile.GetFirstLine();
+	std::stringstream test(str.ToStdString());
+	std::string segment;
+	std::vector<int> x_y_p;
 
-	//Rozmiar pola
-
+	while (std::getline(test, segment, ',')) {
+		x_y_p.push_back(atoi(segment.c_str()));
+	}
 	str = tfile.GetNextLine(); // Polozenie obserwatora wiec pomijamy dla 2d
 
+	/////// Ilosc Fraktali ///////
 	str = tfile.GetNextLine();
+	int ilosc = wxAtoi(str);
+	std::vector<TransSet> vts;
+	std::vector<int> v_frames;
 
-	//Ile fraktali
-
-	str = tfile.GetNextLine();
-
-	//Ile przeksztalcen dla pierwszego fraktala
-
-	int it1 = wxAtoi(str);
-
-	while (it1 > 0) {
+	for (int i = 0; i < ilosc; i++) {
+		//Ile przeksztalcen dla pierwszego fraktala
 		str = tfile.GetNextLine();
+		int iter = wxAtoi(str);
+		std::vector<Trans> vt;
 
-		//Przeksztalcenia dla pierwszego fraktala
-		it1--;
+		for (int j = 0; j < iter; j++) {
+			//Przeksztalcenia dla pierwszego fraktala
+			str = tfile.GetNextLine();
+			std::stringstream test(str.ToStdString());
+			std::string segment;
+			std::vector<float> l;
+
+			while (std::getline(test, segment, ' ')) {
+				l.push_back(atof(segment.c_str()));
+			}
+			Trans t = Trans(l[0],l[1],l[2],l[3],l[4],l[5]);
+			vt.push_back(t);
+		}
+
+		TransSet ts = TransSet(iter, vt);
+		vts.push_back(ts);
+
+		if (i != ilosc - 1) {
+			//Ile klatek pomiedzy
+			str = tfile.GetNextLine();
+			int frames = wxAtoi(str);
+			v_frames.push_back(frames);
+		}
 	}
 
-	str = tfile.GetNextLine();
-
-	//Ile klatek pomiedzy
-
-	str = tfile.GetNextLine();
-
-	//Ile przeksztalcen dla drugiego fraktala
-
-	while (!tfile.Eof()) {
-		str = tfile.GetNextLine();
-
-		//Przeksztalcenia dla drugiego fraktala
-	}
+	Instruction i = Instruction(x_y_p[0], x_y_p[1], x_y_p[2], ilosc, vts, v_frames);
+	return i;
 }
