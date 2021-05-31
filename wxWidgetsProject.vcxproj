@@ -23,9 +23,11 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CImg.h" />
-    <ClInclude Include="FreeImage.h" />
+    <ClInclude Include="TransSet.h" />
     <ClInclude Include="GUI.h" />
+    <ClInclude Include="Instruction.h" />
+    <ClInclude Include="Point.h" />
+    <ClInclude Include="Trans.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
