@@ -26,6 +26,8 @@
 #include <wx/textfile.h>
 #include <iostream>
 #include "Instruction.h"
+#include <wx/dcbuffer.h>
+#include <wx/dcclient.h>
 
 ///////////////////////////////////////////////////////////////////////////
 

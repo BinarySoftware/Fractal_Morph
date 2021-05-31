@@ -2,14 +2,13 @@
 #include "TransSet.h"
 
 class Instruction {
-private:
+public:
 	int x_size, y_size, no_iter;
 	bool is2d;
 	int no_fract;
 	std::vector<TransSet> fractals;
 	std::vector<int> frames_morph;
 
-public:
 	Instruction() : x_size(0), y_size(0), no_iter(0), is2d(true), no_fract(0) {
 		fractals = {};
 		frames_morph = {};
@@ -20,11 +19,11 @@ public:
 
 	Points calculate_fractal(int f_n){
 		Points pts = {};
-		Point curr = Point(x_size / 2, y_size / 2);
+		Point curr = Point(0, 0);
 		for (int i = 0; i < no_iter; i++) {
 			Trans t = fractals[f_n].randomTranslation();
 			curr = t.calculate(curr);
-			pts.push_back(curr);
+			pts.push_back(Point(curr.x() * (x_size / 2), curr.y() * (y_size / 2)));
 		}
 		return pts;
 	}
