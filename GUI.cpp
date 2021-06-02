@@ -85,6 +85,8 @@ void MyFrame::morphButtonOnClick(wxCommandEvent& e) {
 				wxPoint pt = wxPoint(inst.x_size / 2 - (beg.x() + curr_dx), inst.y_size / 2 - (beg.y() + curr_dy));
 				buffer.DrawPoint(pt);
 			}
+			wxSize panelSize = m_panel2->GetSize();
+			buffer.SetLogicalScale(((float)inst.x_size) / ((float)panelSize.x*1.8), ((float)inst.y_size) / ((float)panelSize.y*1.8));
 		}
 	}
 	m_staticText2->SetLabelText("Gotowy");
@@ -120,6 +122,8 @@ void MyFrame::writeButtonOnClick(wxCommandEvent& e) {
 	for (Point point : end_frame_points[0]) {
 		buffer.DrawPoint(wxPoint(inst.x_size / 2 - point.x(), inst.y_size / 2 - point.y()));
 	}
+	wxSize panelSize = m_panel2->GetSize();
+	buffer.SetLogicalScale(((float)inst.x_size) / ((float)panelSize.x * 1.8), ((float)inst.y_size) / ((float)panelSize.y * 1.8));
 
 	m_staticText2->SetLabelText("Gotowy");
 }
