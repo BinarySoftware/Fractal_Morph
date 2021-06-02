@@ -66,13 +66,26 @@ MyFrame::~MyFrame()
 void MyFrame::morphButtonOnClick(wxCommandEvent& e) {
 	m_staticText2->SetLabelText("Morfuje ...");
 	wxClientDC clientDc(m_panel2);
-	wxBufferedDC buffer(&clientDc);
-	buffer.Clear();
-	buffer.SetBackground(*wxBLACK_BRUSH);
-	buffer.SetPen(*wxGREEN_PEN);
 
-	for (Point point : end_frame_points[1]) {
-		buffer.DrawPoint(wxPoint(inst.x_size / 2 - point.x(), inst.y_size / 2 - point.y()));
+	for (int i = 1; i < inst.no_fract; i++) {
+		int steps = inst.frames_morph[i - 1];
+		for (int frame = 0; frame <= steps; frame++) {
+			wxBufferedDC buffer(&clientDc);
+			buffer.SetBackground(*wxBLACK_BRUSH);
+			buffer.SetPen(*wxGREEN_PEN);
+			buffer.Clear();
+			for (int p = 0; p < end_frame_points[i].size(); p++) {
+				Point beg = end_frame_points[i-1][p];
+				Point end = end_frame_points[i][p];
+				float dx = end.x() - beg.x();
+				float dy = end.y() - beg.y();
+				float step = ((float)frame) / ((float)steps);
+				float curr_dx = dx * step;
+				float curr_dy = dy * step;
+				wxPoint pt = wxPoint(inst.x_size / 2 - (beg.x() + curr_dx), inst.y_size / 2 - (beg.y() + curr_dy));
+				buffer.DrawPoint(pt);
+			}
+		}
 	}
 	m_staticText2->SetLabelText("Gotowy");
 }
@@ -105,7 +118,7 @@ void MyFrame::writeButtonOnClick(wxCommandEvent& e) {
 	buffer.SetPen(*wxGREEN_PEN);
 
 	for (Point point : end_frame_points[0]) {
-		buffer.DrawPoint(wxPoint(inst.x_size/2 - point.x(), inst.y_size/2 - point.y()));
+		buffer.DrawPoint(wxPoint(inst.x_size / 2 - point.x(), inst.y_size / 2 - point.y()));
 	}
 
 	m_staticText2->SetLabelText("Gotowy");
@@ -147,7 +160,7 @@ Instruction MyFrame::deserialize(wxString& str, wxTextFile& tfile)
 			while (std::getline(test, segment, ' ')) {
 				l.push_back(atof(segment.c_str()));
 			}
-			Trans t = Trans(l[0],l[1],l[2],l[3],l[4],l[5]);
+			Trans t = Trans(l[0], l[1], l[2], l[3], l[4], l[5]);
 			vt.push_back(t);
 		}
 
