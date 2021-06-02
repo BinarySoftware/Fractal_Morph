@@ -93,7 +93,7 @@ void MyFrame::writeButtonOnClick(wxCommandEvent& e) {
 
 	inst = deserialize(str, tfile);
 	for (int i = 0; i < inst.no_fract; i++) {
-		end_frame_points.push_back(inst.calculate_fractal(1));
+		end_frame_points.push_back(inst.calculate_fractal(i));
 	}
 
 	tfile.Close();
