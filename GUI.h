@@ -39,7 +39,7 @@ class MyFrame : public wxFrame
 {
 	private:
 		Instruction inst;
-		Points current_points;
+		std::vector<Points> end_frame_points;
 
 	protected:
 		wxButton* m_button3;
@@ -64,6 +64,7 @@ class MyFrame : public wxFrame
 		~MyFrame();
 
 		void writeButtonOnClick(wxCommandEvent& e);
+		void morphButtonOnClick(wxCommandEvent& e);
 		Instruction deserialize(wxString& str, wxTextFile& tfile);
 };
 
