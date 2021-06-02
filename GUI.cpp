@@ -77,9 +77,21 @@ void MyFrame::writeButtonOnClick(wxCommandEvent& e) {
 	tfile.Open(file);
 
 	inst = deserialize(str, tfile);
-	current_points = inst.calculate_fractal(0);
+	current_points = inst.calculate_fractal(1);
 
 	tfile.Close();
+
+	wxClientDC clientDc(m_panel2);
+	wxBufferedDC buffer(&clientDc);
+	buffer.Clear();
+	buffer.SetBackground(*wxBLACK_BRUSH);
+	buffer.SetPen(*wxRED_PEN);
+
+	for (Point point : current_points) {
+		buffer.DrawPoint(wxPoint(inst.x_size/2 - point.x(), inst.y_size/2 - point.y()));
+	}
+
+
 }
 
 Instruction MyFrame::deserialize(wxString& str, wxTextFile& tfile)

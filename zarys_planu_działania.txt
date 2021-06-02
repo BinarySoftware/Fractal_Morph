@@ -1,0 +1,15 @@
+klasa na przekształcenia 
+	ABCDEF
+	calculatePoint(wxPoint p) A*p.x+B*p.y+C
+
+klasa na fraktal
+	wektorów przekształceń
+	oblicza prawdopowdobieństwo
+
+klasa Input
+	3 pierwsze fieldy
+	ilość fraktali
+	wektor fraktali
+	wektor ilości przekształceń między fraktalami
+	
+
