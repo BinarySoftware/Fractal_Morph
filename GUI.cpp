@@ -32,9 +32,9 @@ MyFrame::MyFrame(wxWindow* parent, wxWindowID id, const wxString& title, const w
 	m_button4 = new wxButton(this, ID_WXBUTTON_MORPH, wxT("Morfuj"), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer5->Add(m_button4, 0, wxALL, 5);
 
-	//Bind(wxEVT_BUTTON, &MyFrame::morphButtonOnClick, this, ID_WXBUTTON_MORPH);
+	Bind(wxEVT_BUTTON, &MyFrame::morphButtonOnClick, this, ID_WXBUTTON_MORPH);
 
-	m_staticText2 = new wxStaticText(this, wxID_ANY, wxT("..."), wxDefaultPosition, wxDefaultSize, 0);
+	m_staticText2 = new wxStaticText(this, wxID_ANY, wxT("Gotowy."), wxDefaultPosition, wxDefaultSize, 0);
 	m_staticText2->Wrap(-1);
 	bSizer5->Add(m_staticText2, 0, wxALL, 5);
 
@@ -63,7 +63,22 @@ MyFrame::~MyFrame()
 {
 }
 
+void MyFrame::morphButtonOnClick(wxCommandEvent& e) {
+	m_staticText2->SetLabelText("Morfuje ...");
+	wxClientDC clientDc(m_panel2);
+	wxBufferedDC buffer(&clientDc);
+	buffer.Clear();
+	buffer.SetBackground(*wxBLACK_BRUSH);
+	buffer.SetPen(*wxGREEN_PEN);
+
+	for (Point point : end_frame_points[1]) {
+		buffer.DrawPoint(wxPoint(inst.x_size / 2 - point.x(), inst.y_size / 2 - point.y()));
+	}
+	m_staticText2->SetLabelText("Gotowy");
+}
+
 void MyFrame::writeButtonOnClick(wxCommandEvent& e) {
+	m_staticText2->SetLabelText("Wczytuje ...");
 	wxString file;
 	wxFileDialog fdlog(this, "Choose a file", "", "", "TXT files (*.txt)|*.txt");
 
@@ -77,7 +92,9 @@ void MyFrame::writeButtonOnClick(wxCommandEvent& e) {
 	tfile.Open(file);
 
 	inst = deserialize(str, tfile);
-	current_points = inst.calculate_fractal(1);
+	for (int i = 0; i < inst.no_fract; i++) {
+		end_frame_points.push_back(inst.calculate_fractal(1));
+	}
 
 	tfile.Close();
 
@@ -85,13 +102,13 @@ void MyFrame::writeButtonOnClick(wxCommandEvent& e) {
 	wxBufferedDC buffer(&clientDc);
 	buffer.Clear();
 	buffer.SetBackground(*wxBLACK_BRUSH);
-	buffer.SetPen(*wxRED_PEN);
+	buffer.SetPen(*wxGREEN_PEN);
 
-	for (Point point : current_points) {
+	for (Point point : end_frame_points[0]) {
 		buffer.DrawPoint(wxPoint(inst.x_size/2 - point.x(), inst.y_size/2 - point.y()));
 	}
 
-
+	m_staticText2->SetLabelText("Gotowy");
 }
 
 Instruction MyFrame::deserialize(wxString& str, wxTextFile& tfile)
