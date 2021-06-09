@@ -67,7 +67,7 @@ MyFrame::~MyFrame()
 }
 
 void MyFrame::nextButtonOnClick(wxCommandEvent& e) {
-	if (current_fractal < inst.no_fract) {
+	if (current_fractal < inst.no_fract-1) {
 		current_fractal++;
 	}
 	else {
