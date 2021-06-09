@@ -41,6 +41,7 @@ MyFrame::MyFrame(wxWindow* parent, wxWindowID id, const wxString& title, const w
 	m_staticText2->Wrap(-1);
 	bSizer5->Add(m_staticText2, 0, wxALL, 5);
 
+	Bind(wxEVT_SIZE, &MyFrame::windowOnResize, this);
 
 	bSizer4->Add(bSizer5, 0, wxEXPAND, 5);
 
@@ -67,7 +68,7 @@ MyFrame::~MyFrame()
 }
 
 void MyFrame::nextButtonOnClick(wxCommandEvent& e) {
-	if (current_fractal < inst.no_fract) {
+	if (current_fractal < inst.no_fract-1) {
 		current_fractal++;
 	}
 	else {
@@ -227,4 +228,26 @@ Instruction MyFrame::deserialize(wxString& str, wxTextFile& tfile)
 
 	Instruction i = Instruction(x_y_p[0], x_y_p[1], x_y_p[2], ilosc, vts, v_frames);
 	return i;
+}
+
+
+void MyFrame::windowOnResize(wxSizeEvent& e) {
+
+	if (inst.no_fract > 0){
+		wxClientDC clientDc(m_panel2);
+		wxBufferedDC buffer(&clientDc);
+		buffer.Clear();
+		buffer.SetBackground(*wxBLACK_BRUSH);
+
+		for (Point point : end_frame_points[current_fractal]) {
+			buffer.SetPen(*point.pen());
+			buffer.DrawPoint(wxPoint(inst.x_size / 2 - point.x(), inst.y_size / 2 - point.y()));
+		}
+
+		this->Layout();
+		wxSize panelSize = m_panel2->GetSize();
+		buffer.SetLogicalScale(((float)inst.x_size) / ((float)panelSize.x * 1.95), ((float)inst.y_size) / ((float)panelSize.y * 1.95));
+
+		m_staticText2->SetLabelText("Gotowy"); 
+	}
 }
