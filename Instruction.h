@@ -19,13 +19,12 @@ public:
 
 	Points calculate_fractal(int f_n){
 		Points pts = {};
-		Point curr = Point(0, 0);
+		Point curr = Point(0, 0, wxGREEN_PEN);
 		for (int i = 0; i < no_iter; i++) {
 			Trans t = fractals[f_n].randomTranslation();
 			curr = t.calculate(curr);
-			pts.push_back(Point(curr.x() * (x_size / 2), curr.y() * (y_size / 2)));
+			pts.push_back(Point(curr.x() * (x_size / 2), curr.y() * (y_size / 2), t.pen()));
 		}
 		return pts;
 	}
-
 };
