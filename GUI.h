@@ -1,10 +1,3 @@
-///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Oct 26 2018)
-// http://www.wxformbuilder.org/
-//
-// PLEASE DO *NOT* EDIT THIS FILE!
-///////////////////////////////////////////////////////////////////////////
-
 #pragma once
 
 #include <wx/artprov.h>
@@ -40,16 +33,19 @@ class MyFrame : public wxFrame
 	private:
 		Instruction inst;
 		std::vector<Points> end_frame_points;
+		int current_fractal;
 
 	protected:
 		wxButton* m_button3;
 		wxButton* m_button4;
+		wxButton* m_button5;
 		wxStaticText* m_staticText2;
 		wxPanel* m_panel2;
 
 		enum {
 			ID_WXBUTTON_FILE =	1001,
-			ID_WXBUTTON_MORPH =	1002
+			ID_WXBUTTON_MORPH =	1002,
+			ID_WXBUTTON_NEXT = 1003
 		};
 
 	public:
@@ -65,6 +61,7 @@ class MyFrame : public wxFrame
 
 		void writeButtonOnClick(wxCommandEvent& e);
 		void morphButtonOnClick(wxCommandEvent& e);
+		void nextButtonOnClick(wxCommandEvent& e);
 		Instruction deserialize(wxString& str, wxTextFile& tfile);
 };
 

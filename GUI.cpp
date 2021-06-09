@@ -1,9 +1,3 @@
-///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Oct 26 2018)
-// http://www.wxformbuilder.org/
-//
-// PLEASE DO *NOT* EDIT THIS FILE!
-///////////////////////////////////////////////////////////////////////////
 
 #include "GUI.h"
 #include "Instruction.h"
@@ -11,7 +5,11 @@
 #include <string>
 #include <sstream>
 
-///////////////////////////////////////////////////////////////////////////
+const wxPen* pens[5] = { wxRED_PEN,
+						 wxBLUE_PEN,
+						 wxGREEN_PEN,
+						 wxYELLOW_PEN,
+						 wxCYAN_PEN };
 
 MyFrame::MyFrame(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxFrame(parent, id, title, pos, size, style)
 {
@@ -33,6 +31,11 @@ MyFrame::MyFrame(wxWindow* parent, wxWindowID id, const wxString& title, const w
 	bSizer5->Add(m_button4, 0, wxALL, 5);
 
 	Bind(wxEVT_BUTTON, &MyFrame::morphButtonOnClick, this, ID_WXBUTTON_MORPH);
+
+	m_button5 = new wxButton(this, ID_WXBUTTON_NEXT, wxT("Nastepny"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer5->Add(m_button5, 0, wxALL, 5);
+
+	Bind(wxEVT_BUTTON, &MyFrame::nextButtonOnClick, this, ID_WXBUTTON_NEXT);
 
 	m_staticText2 = new wxStaticText(this, wxID_ANY, wxT("Gotowy."), wxDefaultPosition, wxDefaultSize, 0);
 	m_staticText2->Wrap(-1);
@@ -63,11 +66,39 @@ MyFrame::~MyFrame()
 {
 }
 
+void MyFrame::nextButtonOnClick(wxCommandEvent& e) {
+	if (current_fractal < inst.no_fract) {
+		current_fractal++;
+	}
+	else {
+		current_fractal = 0;
+	}
+
+	m_staticText2->SetLabelText("Rysuje ...");
+
+	wxClientDC clientDc(m_panel2);
+	wxBufferedDC buffer(&clientDc);
+	buffer.SetBackground(*wxBLACK_BRUSH);
+	buffer.SetPen(*wxGREEN_PEN);
+	buffer.Clear();
+	for (int p = 0; p < end_frame_points[current_fractal].size(); p++) {
+		buffer.SetPen(*end_frame_points[current_fractal][p].pen());
+		Point end = end_frame_points[current_fractal][p];
+		wxPoint pt = wxPoint(inst.x_size / 2 - end.x(), inst.y_size / 2 - end.y());
+		buffer.DrawPoint(pt);
+	}
+	wxSize panelSize = m_panel2->GetSize();
+	buffer.SetLogicalScale(((float)inst.x_size) / ((float)panelSize.x * 1.95), ((float)inst.y_size) / ((float)panelSize.y * 1.95));
+	m_staticText2->SetLabelText("Gotowy");
+}
+
 void MyFrame::morphButtonOnClick(wxCommandEvent& e) {
 	m_staticText2->SetLabelText("Morfuje ...");
 	wxClientDC clientDc(m_panel2);
 
 	for (int i = 1; i < inst.no_fract; i++) {
+		if(i != 1)
+			Sleep(1000);
 		int steps = inst.frames_morph[i - 1];
 		for (int frame = 0; frame <= steps; frame++) {
 			wxBufferedDC buffer(&clientDc);
@@ -75,6 +106,7 @@ void MyFrame::morphButtonOnClick(wxCommandEvent& e) {
 			buffer.SetPen(*wxGREEN_PEN);
 			buffer.Clear();
 			for (int p = 0; p < end_frame_points[i].size(); p++) {
+				buffer.SetPen(*end_frame_points[i-1][p].pen());
 				Point beg = end_frame_points[i-1][p];
 				Point end = end_frame_points[i][p];
 				float dx = end.x() - beg.x();
@@ -86,8 +118,21 @@ void MyFrame::morphButtonOnClick(wxCommandEvent& e) {
 				buffer.DrawPoint(pt);
 			}
 			wxSize panelSize = m_panel2->GetSize();
-			buffer.SetLogicalScale(((float)inst.x_size) / ((float)panelSize.x*1.8), ((float)inst.y_size) / ((float)panelSize.y*1.8));
+			buffer.SetLogicalScale(((float)inst.x_size) / ((float)panelSize.x*1.95), ((float)inst.y_size) / ((float)panelSize.y*1.95));
 		}
+
+		wxBufferedDC buffer(&clientDc);
+		buffer.SetBackground(*wxBLACK_BRUSH);
+		buffer.SetPen(*wxGREEN_PEN);
+		buffer.Clear();
+		for (int p = 0; p < end_frame_points[i].size(); p++) {
+			buffer.SetPen(*end_frame_points[i][p].pen());
+			Point end = end_frame_points[i][p];
+			wxPoint pt = wxPoint(inst.x_size / 2 - end.x(), inst.y_size / 2 - end.y());
+			buffer.DrawPoint(pt);
+		}
+		wxSize panelSize = m_panel2->GetSize();
+		buffer.SetLogicalScale(((float)inst.x_size) / ((float)panelSize.x * 1.95), ((float)inst.y_size) / ((float)panelSize.y * 1.95));
 	}
 	m_staticText2->SetLabelText("Gotowy");
 }
@@ -106,6 +151,7 @@ void MyFrame::writeButtonOnClick(wxCommandEvent& e) {
 	wxTextFile tfile;
 	tfile.Open(file);
 
+	current_fractal = 0;
 	inst = deserialize(str, tfile);
 	for (int i = 0; i < inst.no_fract; i++) {
 		end_frame_points.push_back(inst.calculate_fractal(i));
@@ -117,13 +163,13 @@ void MyFrame::writeButtonOnClick(wxCommandEvent& e) {
 	wxBufferedDC buffer(&clientDc);
 	buffer.Clear();
 	buffer.SetBackground(*wxBLACK_BRUSH);
-	buffer.SetPen(*wxGREEN_PEN);
 
 	for (Point point : end_frame_points[0]) {
+		buffer.SetPen(*point.pen());
 		buffer.DrawPoint(wxPoint(inst.x_size / 2 - point.x(), inst.y_size / 2 - point.y()));
 	}
 	wxSize panelSize = m_panel2->GetSize();
-	buffer.SetLogicalScale(((float)inst.x_size) / ((float)panelSize.x * 1.8), ((float)inst.y_size) / ((float)panelSize.y * 1.8));
+	buffer.SetLogicalScale(((float)inst.x_size) / ((float)panelSize.x * 1.95), ((float)inst.y_size) / ((float)panelSize.y * 1.95));
 
 	m_staticText2->SetLabelText("Gotowy");
 }
@@ -164,7 +210,7 @@ Instruction MyFrame::deserialize(wxString& str, wxTextFile& tfile)
 			while (std::getline(test, segment, ' ')) {
 				l.push_back(atof(segment.c_str()));
 			}
-			Trans t = Trans(l[0], l[1], l[2], l[3], l[4], l[5]);
+			Trans t = Trans(l[0], l[1], l[2], l[3], l[4], l[5], pens[j]);
 			vt.push_back(t);
 		}
 
