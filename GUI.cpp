@@ -68,7 +68,9 @@ MyFrame::~MyFrame()
 }
 
 void MyFrame::nextButtonOnClick(wxCommandEvent& e) {
+
 	if (current_fractal < inst.no_fract - 1) {
+
 		current_fractal++;
 	}
 	else {
@@ -243,8 +245,10 @@ Instruction MyFrame::deserialize(wxString& str, wxTextFile& tfile)
 
 
 void MyFrame::windowOnResize(wxSizeEvent& e) {
+
 	this->Layout();
 	if (inst.no_fract > 0) {
+
 		wxClientDC clientDc(m_panel2);
 		wxBufferedDC buffer(&clientDc);
 		buffer.Clear();
@@ -256,9 +260,11 @@ void MyFrame::windowOnResize(wxSizeEvent& e) {
 		}
 
 
+
 		wxSize panelSize = m_panel2->GetSize();
 		buffer.SetLogicalScale(((float)inst.x_size) / ((float)panelSize.x * 1.95), ((float)inst.y_size) / ((float)panelSize.y * 1.95));
 
 		m_staticText2->SetLabelText("Gotowy");
+
 	}
 }

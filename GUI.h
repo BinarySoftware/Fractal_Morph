@@ -55,7 +55,7 @@ class MyFrame : public wxFrame
 			const wxString& title = wxEmptyString,
 			const wxPoint& pos = wxDefaultPosition,
 			const wxSize& size = wxSize( 562,348 ),
-			long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+			long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL);
 
 		~MyFrame();
 
