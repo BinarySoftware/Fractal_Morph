@@ -59,6 +59,7 @@ class MyFrame : public wxFrame
 
 		~MyFrame();
 
+		void draw();
 		void windowOnResize(wxSizeEvent& e);
 		void writeButtonOnClick(wxCommandEvent& e);
 		void morphButtonOnClick(wxCommandEvent& e);

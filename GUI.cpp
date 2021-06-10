@@ -68,7 +68,9 @@ MyFrame::~MyFrame()
 }
 
 void MyFrame::nextButtonOnClick(wxCommandEvent& e) {
-	if (current_fractal < inst.no_fract-1) {
+
+	if (current_fractal < inst.no_fract - 1) {
+
 		current_fractal++;
 	}
 	else {
@@ -94,11 +96,21 @@ void MyFrame::nextButtonOnClick(wxCommandEvent& e) {
 }
 
 void MyFrame::morphButtonOnClick(wxCommandEvent& e) {
+	if (current_fractal < inst.no_fract - 1) {
+		draw();
+	}
+	else {
+		current_fractal = 0;
+		draw();
+	}
+}
+
+void MyFrame::draw() {
 	m_staticText2->SetLabelText("Morfuje ...");
 	wxClientDC clientDc(m_panel2);
 
-	for (int i = 1; i < inst.no_fract; i++) {
-		if(i != 1)
+	for (int i = current_fractal + 1; i < inst.no_fract; i++) {
+		if (i != 1)
 			Sleep(1000);
 		int steps = inst.frames_morph[i - 1];
 		for (int frame = 0; frame <= steps; frame++) {
@@ -107,8 +119,8 @@ void MyFrame::morphButtonOnClick(wxCommandEvent& e) {
 			buffer.SetPen(*wxGREEN_PEN);
 			buffer.Clear();
 			for (int p = 0; p < end_frame_points[i].size(); p++) {
-				buffer.SetPen(*end_frame_points[i-1][p].pen());
-				Point beg = end_frame_points[i-1][p];
+				buffer.SetPen(*end_frame_points[i - 1][p].pen());
+				Point beg = end_frame_points[i - 1][p];
 				Point end = end_frame_points[i][p];
 				float dx = end.x() - beg.x();
 				float dy = end.y() - beg.y();
@@ -119,7 +131,7 @@ void MyFrame::morphButtonOnClick(wxCommandEvent& e) {
 				buffer.DrawPoint(pt);
 			}
 			wxSize panelSize = m_panel2->GetSize();
-			buffer.SetLogicalScale(((float)inst.x_size) / ((float)panelSize.x*1.95), ((float)inst.y_size) / ((float)panelSize.y*1.95));
+			buffer.SetLogicalScale(((float)inst.x_size) / ((float)panelSize.x * 1.95), ((float)inst.y_size) / ((float)panelSize.y * 1.95));
 		}
 
 		wxBufferedDC buffer(&clientDc);
@@ -134,6 +146,7 @@ void MyFrame::morphButtonOnClick(wxCommandEvent& e) {
 		}
 		wxSize panelSize = m_panel2->GetSize();
 		buffer.SetLogicalScale(((float)inst.x_size) / ((float)panelSize.x * 1.95), ((float)inst.y_size) / ((float)panelSize.y * 1.95));
+		current_fractal = i;
 	}
 	m_staticText2->SetLabelText("Gotowy");
 }
@@ -233,7 +246,9 @@ Instruction MyFrame::deserialize(wxString& str, wxTextFile& tfile)
 
 void MyFrame::windowOnResize(wxSizeEvent& e) {
 
-	if (inst.no_fract > 0){
+	this->Layout();
+	if (inst.no_fract > 0) {
+
 		wxClientDC clientDc(m_panel2);
 		wxBufferedDC buffer(&clientDc);
 		buffer.Clear();
@@ -244,10 +259,12 @@ void MyFrame::windowOnResize(wxSizeEvent& e) {
 			buffer.DrawPoint(wxPoint(inst.x_size / 2 - point.x(), inst.y_size / 2 - point.y()));
 		}
 
-		this->Layout();
+
+
 		wxSize panelSize = m_panel2->GetSize();
 		buffer.SetLogicalScale(((float)inst.x_size) / ((float)panelSize.x * 1.95), ((float)inst.y_size) / ((float)panelSize.y * 1.95));
 
-		m_staticText2->SetLabelText("Gotowy"); 
+		m_staticText2->SetLabelText("Gotowy");
+
 	}
 }
